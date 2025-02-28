@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coca-Cola Store</title>
+    <link rel="stylesheet" href="css.css">
+    <style>body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+    
+    header {
+        background-color: #e60000;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 24px;
+    }
+    
+    #cart-container {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+    
+    #product-list {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
+    }
+    
+    .product {
+        text-align: center;
+        padding: 10px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    button {
+        background-color: #e60000;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #cc0000;
+    }
+    
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        margin: 10% auto;
+        width: 50%;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+    }
+    
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }</style>
+  
+</head>
+<body>
+    <header>
+        <h1>Coca-Cola Store</h1>
+        <div id="cart-container">
+            <button onclick="viewCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="product-list">
+            <div class="product">
+                <img src="cocaone.jpg" alt="Coca-Cola Bottle">
+                <h2>Coca-Cola Classic</h2>
+                <p>$1.50</p>
+                <button onclick="addToCart('Coca-Cola Classic', 1.50)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="cocatwo.jpg" alt="Coca-Cola Zero">
+                <h2>Coca-Cola Zero</h2>
+                <p>$1.40</p>
+                <button onclick="addToCart('Coca-Cola Zero', 1.40)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="cocathreee.jpg" alt="Diet Coke">
+                <h2>Diet Coke</h2>
+                <p>$1.30</p>
+                <button onclick="addToCart('Diet Coke', 1.30)">Add to Cart</button>
+            </div>
+        </section>
+
+        <div id="cart-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeCart()">&times;</span>
+                <h2>Your Cart</h2>
+                <ul id="cart-items">
+                    <!-- Cart items will appear here -->
+                </ul>
+                <p>Total: $<span id="total-price">0.00</span></p>
+                <button onclick="checkout()">Checkout</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let cart = [];
+let cartCount = 0;
+
+function addToCart(productName, productPrice) {
+    cart.push({ name: productName, price: productPrice });
+    cartCount++;
+    document.getElementById("cart-count").innerText = cartCount;
+}
+
+function viewCart() {
+    let cartModal = document.getElementById("cart-modal");
+    let cartItemsList = document.getElementById("cart-items");
+    let totalPrice = 0;
+    cartItemsList.innerHTML = '';
+
+    // Populate cart items in the modal
+    cart.forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        cartItemsList.appendChild(li);
+        totalPrice += item.price;
+    });
+
+    // Update the total price
+    document.getElementById("total-price").innerText = totalPrice.toFixed(2);
+
+    // Show the modal
+    cartModal.style.display = "block";
+}
+
+function closeCart() {
+    let cartModal = document.getElementById("cart-modal");
+    cartModal.style.display = "none";
+}
+
+function checkout() {
+    alert('Thank you for your purchase!');
+    cart = [];
+    cartCount = 0;
+    document.getElementById("cart-count").innerText = cartCount;
+    closeCart();
+}
+
+    </script>
+</body>
+</html>
